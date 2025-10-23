@@ -1,0 +1,15 @@
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}%
+\contentsline {section}{\numberline {2}Theoretical Background}{2}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Big Data Systems}{2}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Hadoop and HDFS}{2}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Apache Spark}{2}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Stock Data Characteristics}{3}{subsection.2.4}%
+\contentsline {section}{\numberline {3}System Design and Implementation}{3}{section.3}%
+\contentsline {subsection}{\numberline {3.1}System Architecture}{3}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Cluster Setup}{3}{subsection.3.2}%
+\contentsline {section}{\numberline {4}Data Collection}{4}{section.4}%
+\contentsline {section}{\numberline {5}Data Preprocessing}{4}{section.5}%
+\contentsline {section}{\numberline {6}Data Analysis}{4}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Price Trend Analysis}{4}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Price Growth Rate Analysis}{5}{subsection.6.2}%
+\contentsline {section}{\numberline {7}Conclusion}{6}{section.7}%
