@@ -1,0 +1,154 @@
+version: '3.8'
+
+services:
+  # ------------------ HDFS ------------------
+  namenode:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    container_name: namenode
+    environment:
+      - CLUSTER_NAME=hadoop-cluster
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+    ports:
+      - "9870:9870"   # HDFS web UI
+      - "9000:9000"   # HDFS service port
+    volumes:
+      - ./data:/upload_data
+      - ./namenode/init_namenode.sh:/init_namenode.sh
+    entrypoint: ["/bin/bash", "-c", "/init_namenode.sh"]
+
+  datanode1:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: datanode1
+    environment:
+      - CLUSTER_NAME=hadoop-cluster
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+      - SERVICE_PRECONDITION=namenode:9870
+    depends_on:
+      - namenode
+
+  datanode2:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: datanode2
+    environment:
+      - CLUSTER_NAME=hadoop-cluster
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+      - SERVICE_PRECONDITION=namenode:9870
+    depends_on:
+      - namenode
+
+  datanode3:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: datanode3
+    environment:
+      - CLUSTER_NAME=hadoop-cluster
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+      - SERVICE_PRECONDITION=namenode:9870
+    depends_on:
+      - namenode
+
+  datanode4:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: datanode4
+    environment:
+      - CLUSTER_NAME=hadoop-cluster
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+      - SERVICE_PRECONDITION=namenode:9870
+    depends_on:
+      - namenode
+
+  # ------------------ SPARK ------------------
+  spark-master:
+    image: spark:3.5.0
+    container_name: spark-master
+    command: ["/opt/spark/bin/spark-class", "org.apache.spark.deploy.master.Master", "-h", "spark-master"]
+    environment:
+      - SPARK_MODE=master
+      - SPARK_MASTER_HOST=spark-master
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+      - SPARK_NO_DAEMONIZE=true 
+      - SPARK_MASTER_PORT=7077
+      - SPARK_MASTER_WEBUI_PORT=8080
+    volumes:
+      - ./core-site.xml:/opt/spark/conf/core-site.xml
+      - ./hdfs-site.xml:/opt/spark/conf/hdfs-site.xml
+    ports:
+      - "8080:8080"   # Spark Master UI
+      - "7077:7077"   # Spark cluster port
+    depends_on:
+      - namenode
+
+  spark-worker1:
+    image: spark:3.5.0
+    container_name: spark-worker1
+    command: ["/opt/spark/bin/spark-class", "org.apache.spark.deploy.worker.Worker", "spark://spark-master:7077"]
+    environment:
+
+      - SPARK_MODE=worker 
+      - SPARK_MASTER=spark://spark-master:7077
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+      - SPARK_NO_DAEMONIZE=true
+    
+    volumes:
+      - ./core-site.xml:/opt/spark/conf/core-site.xml
+      - ./hdfs-site.xml:/opt/spark/conf/hdfs-site.xml
+    depends_on:
+      - spark-master
+
+  spark-worker2:
+    image: spark:3.5.0
+    container_name: spark-worker2
+    command: ["/opt/spark/bin/spark-class", "org.apache.spark.deploy.worker.Worker", "spark://spark-master:7077"]
+    environment:
+      - SPARK_MODE=worker 
+      - SPARK_MASTER=spark://spark-master:7077
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+      - SPARK_NO_DAEMONIZE=true
+
+    volumes:
+      - ./core-site.xml:/opt/spark/conf/core-site.xml
+      - ./hdfs-site.xml:/opt/spark/conf/hdfs-site.xml
+    depends_on:
+      - spark-master
+
+  spark-worker3:
+    image: spark:3.5.0
+    container_name: spark-worker3
+    command: ["/opt/spark/bin/spark-class", "org.apache.spark.deploy.worker.Worker", "spark://spark-master:7077"]
+    environment:
+      - SPARK_MODE=worker 
+      - SPARK_MASTER=spark://spark-master:7077
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+      - SPARK_NO_DAEMONIZE=true
+    volumes:
+      - ./core-site.xml:/opt/spark/conf/core-site.xml
+      - ./hdfs-site.xml:/opt/spark/conf/hdfs-site.xml
+    depends_on:
+      - spark-master
+
+  spark-worker4:
+    image: spark:3.5.0
+    container_name: spark-worker4
+    command: ["/opt/spark/bin/spark-class", "org.apache.spark.deploy.worker.Worker", "spark://spark-master:7077"]
+    environment:
+      - SPARK_MODE=worker 
+      - SPARK_MASTER=spark://spark-master:7077
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+      - SPARK_NO_DAEMONIZE=true
+    
+    volumes:
+      - ./core-site.xml:/opt/spark/conf/core-site.xml
+      - ./hdfs-site.xml:/opt/spark/conf/hdfs-site.xml
+    depends_on:
+      - spark-master
+
+  
+  jupyter:
+    image: jupyter/pyspark-notebook:latest
+    container_name: jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebook:/home/jovyan/work
+    depends_on:
+      - spark-master
+      - namenode
