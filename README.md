@@ -1,7 +1,7 @@
 # Case Study: Stock Price Bigdata
 
 A Big Data Analytics project focused on **Vietnamese Bank Stock Prices (VNStock)**.  
-This project demonstrates a complete data pipeline — from data collection, preprocessing, Spark-based distributed processing, and analysis to LSTM prediction for stock price forecasting.
+This project demonstrates a complete data pipeline — from data collection, preprocessing, Spark-based distributed processing, and Analysis.
 
 ---
 
@@ -11,7 +11,6 @@ This project demonstrates a complete data pipeline — from data collection, pre
 - Apply data processing and analytical techniques.
 - Build and deploy a **Big Data System** using **Spark + Docker + Jupyter**.
 - Analyze and visualize stock price trends and growth rates.
-- Use **LSTM (TensorFlow)** for predictive modeling.
 
 ---
 
@@ -104,15 +103,12 @@ for s in symbols:
 --  Plot closing price trends of all bank stocks.
 - Price Growth Rate
 -- Calculate 2-month growth rate and visualize changes.
-## LSTM Stock Price Prediction
-Predict future prices for MBB using a Long Short-Term Memory (LSTM) neural network.
 
 ## Results
 Task	Result
 Cluster Setup	Successfully deployed Spark + Hadoop + Jupyter via Docker
 Data Collection	Collected 10 bank stock datasets (2015–2025)
 Data Analysis	Generated trend and growth rate visualizations
-Predictive Model	LSTM model trained and evaluated on MBB data
 Visualization	All analysis plots displayed in Jupyter and exported as .png
 📦 Project Structure
 ```bash
