@@ -1,4 +1,4 @@
-VCB	
+VCB
 BID	
 CTG	
 TCB	
